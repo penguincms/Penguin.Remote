@@ -92,6 +92,10 @@ namespace Penguin.Remote
 
         public void AcceptCallback(IAsyncResult ar)
         {
+            if (ar is null)
+            {
+                throw new ArgumentNullException(nameof(ar));
+            }
             // Signal the main thread to continue.  
             _ = allDone.Set();
 
@@ -111,6 +115,11 @@ namespace Penguin.Remote
 
         protected virtual void ReadCallback(IAsyncResult ar)
         {
+            if (ar is null)
+            {
+                throw new ArgumentNullException(nameof(ar));
+            }
+
             try
             {
                 // Retrieve the state object and the handler socket  
@@ -149,6 +158,11 @@ namespace Penguin.Remote
 
         protected override void SendCallback(IAsyncResult ar)
         {
+            if (ar is null)
+            {
+                throw new ArgumentNullException(nameof(ar));
+            }
+
             try
             {
                 // Retrieve the socket from the state object.  

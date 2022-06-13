@@ -1,4 +1,5 @@
 ﻿using Penguin.Remote.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -36,6 +37,11 @@ namespace Penguin.Remote.Responses
             set
             {
                 StringBuilder sb = new();
+
+                if(value is null)
+                {
+                    throw new ArgumentNullException(nameof(value));
+                }
 
                 for(int i = 0; i < value.Count; i++)
                 {

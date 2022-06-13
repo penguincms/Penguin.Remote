@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Penguin.Remote</name>
+    </assembly>
+    <members>
+        <member name="M:Penguin.Remote.AsyncQueue.Dispose">
+            <summary>
+            Disposes of the class, and flushes the queue
+            </summary>
+        </member>
+        <member name="M:Penguin.Remote.AsyncQueue.Dispose(System.Boolean)">
+            <summary>
+            Disposes of the class, and flushes the queue
+            </summary>
+            <param name="disposing"></param>
+        </member>
+        <member name="M:Penguin.Remote.AsyncQueue.Execute``1(System.Func{System.Threading.Tasks.Task{``0}})">
+            <summary>
+            Adds a new line of text to the internal queue, to be flushed by the background thread
+            </summary>
+            <param name="toEnque">The string to Enqueue</param>
+        </member>
+    </members>
+</doc>

@@ -82,6 +82,11 @@ namespace Penguin.Remote
 
         public static EnumerateFilesResponse EnumerateFiles(EnumerateFiles request)
         {
+            if (request is null)
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
+
             return new EnumerateFilesResponse()
             {
                 Files = Directory.EnumerateFiles(request.Path, request.Mask, request.Recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly)
@@ -93,6 +98,11 @@ namespace Penguin.Remote
 
         public static PushResponse Push(Push request)
         {
+            if (request is null)
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
+
             FileInfo target = new(request.RemotePath);
 
             if (target.Exists)
@@ -123,6 +133,11 @@ namespace Penguin.Remote
 
         public static PullResponse Pull(Pull request)
         {
+            if (request is null)
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
+
             return new PullResponse()
             {
                 Payload = File.ReadAllBytes(request.RemotePath)
@@ -131,6 +146,11 @@ namespace Penguin.Remote
 
         public static EchoResponse Echo(Echo request)
         {
+            if (request is null)
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
+
             EchoResponse response = new();
 
             response.Text = request.Text;

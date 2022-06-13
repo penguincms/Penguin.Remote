@@ -62,6 +62,11 @@ namespace Penguin.Remote
 
         public static IEnumerable<MemberInfo> GetSerializedHeaders(Type type)
         {
+            if (type is null)
+            {
+                throw new ArgumentNullException(nameof(type));
+            }
+
             foreach (MemberInfo member in GetMembers(type))
             {
                 if (member.Name == nameof(TransmissionPackage.Payload) || !IsSerialized(member))
@@ -154,6 +159,11 @@ namespace Penguin.Remote
 
         public static byte[] Serialize<T>(T remoteCommand) where T : TransmissionPackage
         {
+            if (remoteCommand is null)
+            {
+                throw new ArgumentNullException(nameof(remoteCommand));
+            }
+
             int headerSize = GetHeadersLength(remoteCommand.GetType());
 
             byte[] toReturn = new byte[headerSize + remoteCommand.PayloadSize];
@@ -219,6 +229,11 @@ namespace Penguin.Remote
         }
         public static byte[] GetBytes(object o)
         {
+            if (o is null)
+            {
+                throw new ArgumentNullException(nameof(o));
+            }
+
             Type oType = o.GetType();
 
             if(o is string s)

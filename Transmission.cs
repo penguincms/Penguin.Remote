@@ -14,10 +14,6 @@ namespace Penguin.Remote
 {
     class Transmission<TResponse> : AsyncConnector where TResponse : ServerResponse, new()
     {
-        private readonly IPHostEntry IpHostInfo;
-
-        private readonly IPAddress IpAddress;
-
         private readonly IPEndPoint RemoteEP;
 
 
