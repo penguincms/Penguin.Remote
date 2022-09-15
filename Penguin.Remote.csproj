@@ -10,7 +10,7 @@
     <Description>Not Available</Description>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Penguin.Reflection" Version="5.0.6-TB0DVI6" />
+    <PackageReference Include="Penguin.Reflection" Version="5.0.6-TB3XO8Q" />
   </ItemGroup>
   <Import Project="Penguin.Projects.Shared\Penguin.Projects.Shared.csproj" />
 </Project>
