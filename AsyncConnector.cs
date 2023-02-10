@@ -7,6 +7,7 @@ namespace Penguin.Remote
     public abstract class AsyncConnector
     {
         public IPHostEntry IpHostInfo { get; protected set; }
+
         public IPAddress IpAddress { get; protected set; }
 
         protected void Send(Socket client, byte[] byteData)

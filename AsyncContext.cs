@@ -28,6 +28,7 @@ namespace Penguin.Remote
         private readonly Func<Task<TReturn>> ToExecute;
 
         private readonly TaskCompletionSource<TReturn> TaskCompletionSource = new();
+
         public Task<TReturn> Return => this.TaskCompletionSource.Task;
 
         Task IAsyncContext.Task => this.Return;

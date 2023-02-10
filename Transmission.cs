@@ -94,6 +94,7 @@ namespace Penguin.Remote
         private class SocketConnectResult
         {
             public SocketConnectState State { get; set; }
+
             public Exception Exception { get; set; }
         }
 

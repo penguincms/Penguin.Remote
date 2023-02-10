@@ -8,6 +8,7 @@ namespace Penguin.Remote
     public class Client
     {
         public string Host { get; private set; }
+
         public int Port { get; private set; }
 
         private readonly IPHostEntry IpHostInfo;
