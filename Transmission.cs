@@ -130,6 +130,7 @@ namespace Penguin.Remote
                 }
                 catch (Exception iex)
                 {
+                    Debug.WriteLine(iex);
                     Debugger.Break();
                     throw;
                 }

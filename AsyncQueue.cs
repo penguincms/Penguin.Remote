@@ -1,51 +1,12 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Penguin.Remote
 {
-    public interface IAsyncContext
-    {
-        public void Execute();
-
-        Task Task { get; }
-
-        internal int QueuePosition { get; set; }
-    }
-
-    public class AsyncContext<TReturn> : IAsyncContext
-    {
-        public AsyncContext(Func<Task<TReturn>> toExecute)
-        {
-            this.ToExecute = toExecute;
-        }
-
-        public void Execute()
-        {
-            this.ExecutingTask = Task.Run(async () =>
-            {
-                TReturn returnVal = await this.ToExecute();
-                this.TaskCompletionSource.SetResult(returnVal);
-            });
-        }
-
-        [SuppressMessage("CodeQuality", "IDE0052:Remove unread private members", Justification = "I want to make sure this task doesn't disppear")]
-        private Task ExecutingTask { get; set; }
-        public void SetResult(TReturn result) => this.TaskCompletionSource.SetResult(result);
-
-        private readonly Func<Task<TReturn>> ToExecute;
-
-        private readonly TaskCompletionSource<TReturn> TaskCompletionSource = new();
-        public Task<TReturn> Return => this.TaskCompletionSource.Task;
-
-        Task IAsyncContext.Task => this.Return;
-
-        int IAsyncContext.QueuePosition { get; set; }
-    }
     public class AsyncQueue
     {
         public AsyncQueue(int maxExecutingTasks = 10)
@@ -93,9 +54,9 @@ namespace Penguin.Remote
         private async Task LoopProcess()
         {
 
-            this.ProcessSemaphore.Wait();
+            await this.ProcessSemaphore.WaitAsync();
 
-            this.WorkerSemaphore.Wait();
+            await this.WorkerSemaphore.WaitAsync();
 
             while (!this.Queue.IsEmpty)
             {
