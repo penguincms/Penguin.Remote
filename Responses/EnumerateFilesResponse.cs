@@ -19,7 +19,7 @@ namespace Penguin.Remote.Responses
                     return toReturn;
                 }
 
-                foreach(string fileMeta in this.Text.Split(System.Environment.NewLine))
+                foreach (string fileMeta in this.Text.Split(System.Environment.NewLine))
                 {
                     string path = fileMeta.Split('\t')[0];
 
@@ -38,14 +38,14 @@ namespace Penguin.Remote.Responses
             {
                 StringBuilder sb = new();
 
-                if(value is null)
+                if (value is null)
                 {
                     throw new ArgumentNullException(nameof(value));
                 }
 
-                for(int i = 0; i < value.Count; i++)
+                for (int i = 0; i < value.Count; i++)
                 {
-                    if(i != 0)
+                    if (i != 0)
                     {
                         _ = sb.Append(System.Environment.NewLine);
                     }

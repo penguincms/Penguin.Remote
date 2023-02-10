@@ -2,13 +2,10 @@
 using Penguin.Remote.Commands;
 using Penguin.Remote.Responses;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Penguin.Remote
 {
@@ -20,7 +17,7 @@ namespace Penguin.Remote
 
             Type realType = TypeFactory.GetTypeByFullName(dataPackage.RemoteCommandKind);
 
-            if(realType == null)
+            if (realType == null)
             {
                 Console.WriteLine($"Command type '{dataPackage.RemoteCommandKind}' not found");
             }
@@ -39,7 +36,7 @@ namespace Penguin.Remote
 
             MethodInfo method = typeof(Functions).GetMethods().SingleOrDefault(m => m.ReturnType == responseType && m.GetParameters().Single().ParameterType == realType);
 
-            if(method is null)
+            if (method is null)
             {
                 throw new NotImplementedException();
             }
@@ -49,13 +46,14 @@ namespace Penguin.Remote
             try
             {
                 response = method.Invoke(null, new object[] { package }) as ServerResponse;
-            } catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 response = Activator.CreateInstance(responseType) as ServerResponse;
 
                 response.Success = false;
 
-                if(ex.InnerException  != null)
+                if (ex.InnerException != null)
                 {
                     ex = ex.InnerException;
                 }
@@ -69,11 +67,10 @@ namespace Penguin.Remote
             StateObject state = new StateObject();
             state.Append(responseBytes);
 
-            if(!state.IsComplete)
+            if (!state.IsComplete)
             {
                 Debugger.Break();
             }
-
 
 #endif
 
@@ -118,10 +115,10 @@ namespace Penguin.Remote
                 else
                 {
                     File.Delete(request.RemotePath);
-                } 
+                }
             }
 
-            if(!target.Directory.Exists)
+            if (!target.Directory.Exists)
             {
                 target.Directory.Create();
             }
@@ -157,6 +154,5 @@ namespace Penguin.Remote
 
             return response;
         }
-
     }
 }

@@ -7,7 +7,7 @@ namespace Penguin.Remote
 {
     public class AsynchronousSocketListener : AsyncConnector
     {
-        // Thread signal.  
+        // Thread signal.
         public static ManualResetEvent allDone = new ManualResetEvent(false);
 
         public AsynchronousSocketListener(int port, string localAddress = null)
@@ -21,11 +21,12 @@ namespace Penguin.Remote
         public string LocalAddress { get; private set; }
 
         public IPEndPoint LocalEndPoint { get; private set; }
+
         public void Start()
         {
-            // Establish the local endpoint for the socket.  
-            // The DNS name of the computer  
-            // running the listener is "host.contoso.com".  
+            // Establish the local endpoint for the socket.
+            // The DNS name of the computer
+            // running the listener is "host.contoso.com".
 
             if (this.LocalAddress is null)
             {
@@ -40,45 +41,43 @@ namespace Penguin.Remote
 
             this.LocalEndPoint = new IPEndPoint(this.IpAddress, this.Port);
 
-            // Create a TCP/IP socket.  
+            // Create a TCP/IP socket.
             Socket listener = new(this.IpAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
 
-            // Bind the socket to the local endpoint and listen for incoming connections.  
+            // Bind the socket to the local endpoint and listen for incoming connections.
             try
             {
                 listener.Bind(this.LocalEndPoint);
 
                 listener.Listen(int.MaxValue);
 
-                // Set the event to nonsignaled state.  
+                // Set the event to nonsignaled state.
                 _ = allDone.Reset();
 
                 while (true)
                 {
                     try
                     {
-                        // Start an asynchronous socket to listen for connections.  
+                        // Start an asynchronous socket to listen for connections.
                         Console.WriteLine("Waiting for a connection...");
-                        
+
                         _ = listener.BeginAccept(
                             new AsyncCallback(this.AcceptCallback),
                             listener);
 
-                        // Wait until a connection is made before continuing.  
+                        // Wait until a connection is made before continuing.
                         _ = allDone.WaitOne();
-
-                    } catch(Exception ex)
+                    }
+                    catch (Exception ex)
                     {
                         Console.WriteLine(ex.Message);
-                    } finally
+                    }
+                    finally
                     {
-                        // Set the event to nonsignaled state.  
+                        // Set the event to nonsignaled state.
                         _ = allDone.Reset();
                     }
-
-
                 }
-
             }
             catch (Exception e)
             {
@@ -87,7 +86,6 @@ namespace Penguin.Remote
 
             Console.WriteLine("\nPress ENTER to continue...");
             _ = Console.Read();
-
         }
 
         public void AcceptCallback(IAsyncResult ar)
@@ -96,15 +94,15 @@ namespace Penguin.Remote
             {
                 throw new ArgumentNullException(nameof(ar));
             }
-            // Signal the main thread to continue.  
+            // Signal the main thread to continue.
             _ = allDone.Set();
 
-            // Get the socket that handles the client request.  
+            // Get the socket that handles the client request.
             Socket? listener = (Socket)ar.AsyncState;
 
             Socket handler = listener.EndAccept(ar);
 
-            // Create the state object.  
+            // Create the state object.
             StateObject state = new()
             {
                 workSocket = handler
@@ -122,8 +120,8 @@ namespace Penguin.Remote
 
             try
             {
-                // Retrieve the state object and the handler socket  
-                // from the asynchronous state object.  
+                // Retrieve the state object and the handler socket
+                // from the asynchronous state object.
                 StateObject? state = (StateObject)ar.AsyncState;
 
                 Socket handler = state.workSocket;
@@ -133,7 +131,7 @@ namespace Penguin.Remote
 
                 if (bytesRead > 0)
                 {
-                    // There  might be more data, so store the data received so far.  
+                    // There  might be more data, so store the data received so far.
                     state.Append(bytesRead);
 
                     if (state.IsComplete)
@@ -146,11 +144,12 @@ namespace Penguin.Remote
                     }
                     else
                     {
-                        // Not all data received. Get more.  
+                        // Not all data received. Get more.
                         _ = handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(this.ReadCallback), state);
                     }
                 }
-            } catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
@@ -165,23 +164,21 @@ namespace Penguin.Remote
 
             try
             {
-                // Retrieve the socket from the state object.  
+                // Retrieve the socket from the state object.
                 Socket? handler = (Socket)ar.AsyncState;
 
-                // Complete sending the data to the remote device.  
+                // Complete sending the data to the remote device.
                 int bytesSent = handler.EndSend(ar);
 
                 Console.WriteLine("Sent {0} bytes to client.", bytesSent);
 
                 handler.Shutdown(SocketShutdown.Both);
                 handler.Close();
-
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.ToString());
             }
         }
-
     }
 }

@@ -6,7 +6,6 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data;
-using System.Drawing;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -19,8 +18,7 @@ namespace Penguin.Remote
 
         private static IEnumerable<MemberInfo> GetMembers(Type type)
         {
-            List<MemberInfo> members = new List<MemberInfo>(); 
-
+            List<MemberInfo> members = new List<MemberInfo>();
 
             foreach (PropertyInfo property in type.GetProperties())
             {
@@ -37,22 +35,22 @@ namespace Penguin.Remote
 
         private static int GetMemberOrder(MemberInfo m)
         {
-            if(m.Name == nameof(TransmissionPackage.Payload))
+            if (m.Name == nameof(TransmissionPackage.Payload))
             {
                 return int.MaxValue;
             }
 
-            if(m.Name == nameof(TransmissionPackage.PayloadSize))
+            if (m.Name == nameof(TransmissionPackage.PayloadSize))
             {
                 return int.MinValue;
             }
 
-            if(m.Name == nameof(TransmissionPackage.RemoteCommandKind))
+            if (m.Name == nameof(TransmissionPackage.RemoteCommandKind))
             {
                 return int.MinValue + 1;
             }
 
-            if(m.GetCustomAttribute<SerializationData>() is SerializationData sd)
+            if (m.GetCustomAttribute<SerializationData>() is SerializationData sd)
             {
                 return sd.Order;
             }
@@ -91,7 +89,6 @@ namespace Penguin.Remote
         }
 
         public static int GetPayloadSizeLength() => SizeOf(typeof(long));
-
 
         public static long GetPackageLength(byte[] metaHeader)
         {
@@ -148,7 +145,6 @@ namespace Penguin.Remote
 
             if (command is TransmissionPackage tp)
             {
-
                 Array.Copy(bytes, p, tp.Payload, 0, tp.Payload.Length);
             }
 
@@ -195,16 +191,16 @@ namespace Penguin.Remote
 
         private static Func<byte[], object>? GetValueConvertMethod(Type t)
         {
-            foreach(MethodInfo mi in typeof(BitConverter).GetMethods())
+            foreach (MethodInfo mi in typeof(BitConverter).GetMethods())
             {
-                if(mi.ReturnType != t)
+                if (mi.ReturnType != t)
                 {
                     continue;
                 }
 
                 List<ParameterInfo> parameters = mi.GetParameters().ToList();
 
-                if(!parameters.Any())
+                if (!parameters.Any())
                 {
                     continue;
                 }
@@ -217,16 +213,16 @@ namespace Penguin.Remote
                 if (parameters.Count == 1)
                 {
                     return (b) => mi.Invoke(null, new object[] { b });
-
-                } else if (parameters.Count == 2)
+                }
+                else if (parameters.Count == 2)
                 {
                     return (b) => mi.Invoke(null, new object[] { b, 0 });
                 }
             }
 
             return null;
-
         }
+
         public static byte[] GetBytes(object o)
         {
             if (o is null)
@@ -236,7 +232,7 @@ namespace Penguin.Remote
 
             Type oType = o.GetType();
 
-            if(o is string s)
+            if (o is string s)
             {
                 return System.Text.Encoding.UTF8.GetBytes(s);
             }
@@ -297,6 +293,5 @@ namespace Penguin.Remote
                 throw new NotImplementedException();
             }
         }
-
     }
 }

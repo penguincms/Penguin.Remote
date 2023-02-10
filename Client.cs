@@ -1,7 +1,6 @@
 ﻿using Penguin.Remote.Commands;
 using Penguin.Remote.Responses;
 using System.Net;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Penguin.Remote
@@ -42,10 +41,9 @@ namespace Penguin.Remote
 
         public async Task<TResponse> Send<TResponse>(ServerCommand<TResponse> command) where TResponse : ServerResponse, new()
         {
-
             Transmission<TResponse> transmission = new(this.IpHostInfo, this.IpAddress, this.RemoteEP);
 
-            TResponse response =  await Queue.Execute(async () => await transmission.Send(command));
+            TResponse response = await Queue.Execute(async () => await transmission.Send(command));
 
             return response;
         }

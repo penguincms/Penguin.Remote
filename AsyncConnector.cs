@@ -25,6 +25,5 @@ namespace Penguin.Remote
         }
 
         protected abstract void SendCallback(IAsyncResult ar);
-
     }
 }

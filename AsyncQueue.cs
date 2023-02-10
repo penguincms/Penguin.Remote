@@ -23,8 +23,8 @@ namespace Penguin.Remote
         private bool WorkerRunning = false;
         private readonly IAsyncContext[] CurrentlyExecuting;
 
-
         private readonly ConcurrentQueue<IAsyncContext> Queue = new ConcurrentQueue<IAsyncContext>();
+
         /// <summary>
         /// Disposes of the class, and flushes the queue
         /// </summary>
@@ -53,7 +53,6 @@ namespace Penguin.Remote
 
         private async Task LoopProcess()
         {
-
             await this.ProcessSemaphore.WaitAsync();
 
             await this.WorkerSemaphore.WaitAsync();
@@ -84,9 +83,7 @@ namespace Penguin.Remote
                     {
                         this.FillSlot(realTasks[completed].QueuePosition);
                     }
-
                 } while (this.CurrentlyExecuting.Any(t => t != null));
-
 
                 this.WorkerSemaphore.Wait();
             }

@@ -10,7 +10,9 @@ namespace Penguin.Remote
     internal class StateObject
     {
         public void Append(byte[] data, int length) => this.Data.AddRange(data.Take(length));
+
         public void Append(byte[] data) => this.Data.AddRange(data);
+
         public void Append(int length) => this.Append(this.buffer, length);
 
         public long PackageLength
@@ -34,10 +36,10 @@ namespace Penguin.Remote
 
         private long packageLength;
 
-        // Size of receive buffer.  
+        // Size of receive buffer.
         public const int BufferSize = 1_048_576;
 
-        // Receive buffer.  
+        // Receive buffer.
         public byte[] buffer = new byte[BufferSize];
 
         // Received data string.

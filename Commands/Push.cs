@@ -1,11 +1,6 @@
 ﻿using Penguin.Remote.Attributes;
 using Penguin.Remote.Responses;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Penguin.Remote.Commands
 {
@@ -15,6 +10,7 @@ namespace Penguin.Remote.Commands
         public string RemotePath { get; set; }
 
         public bool Overwrite { get; set; }
+
         public Push(string localPath, string remotePath, bool overwrite = false)
         {
             this.Payload = File.ReadAllBytes(localPath);
@@ -26,7 +22,6 @@ namespace Penguin.Remote.Commands
 
         public Push()
         {
-
         }
     }
 }

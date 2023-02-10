@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Penguin.Remote.Extensions
 {
@@ -11,12 +7,12 @@ namespace Penguin.Remote.Extensions
     {
         public static object GetValue(this MemberInfo mi, object Target)
         {
-            if(mi is PropertyInfo pi)
+            if (mi is PropertyInfo pi)
             {
                 return pi.GetValue(Target);
             }
 
-            if(mi is FieldInfo fi)
+            if (mi is FieldInfo fi)
             {
                 return fi.GetValue(Target);
             }

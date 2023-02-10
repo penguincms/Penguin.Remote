@@ -22,6 +22,7 @@ namespace Penguin.Remote
 
         [SuppressMessage("CodeQuality", "IDE0052:Remove unread private members", Justification = "I want to make sure this task doesn't disppear")]
         private Task ExecutingTask { get; set; }
+
         public void SetResult(TReturn result) => this.TaskCompletionSource.SetResult(result);
 
         private readonly Func<Task<TReturn>> ToExecute;
