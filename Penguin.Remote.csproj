@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
-    <PackageProjectUrl>https://github.com/PenguinCMS/Penguin.Remote</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/PenguinCms/Penguin.Remote</PackageProjectUrl>
     <DocumentationFile>Penguin.Remote.xml</DocumentationFile>
     <Version>1.0.0</Version>
     <AssemblyName>Penguin.Remote</AssemblyName>
