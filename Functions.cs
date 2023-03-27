@@ -16,7 +16,7 @@ namespace Penguin.Remote
         {
             TransmissionMeta dataPackage = SerializationHelper.Deserialize(command);
 
-            Type realType = TypeFactory.GetTypeByFullName(dataPackage.RemoteCommandKind);
+            Type realType = TypeFactory.Default.GetTypeByFullName(dataPackage.RemoteCommandKind);
 
             if (realType == null)
             {

@@ -95,7 +95,7 @@ namespace Penguin.Remote
         {
             TransmissionMeta meta = Deserialize(metaHeader);
 
-            Type packageType = TypeFactory.GetTypeByFullName(meta.RemoteCommandKind);
+            Type packageType = TypeFactory.Default.GetTypeByFullName(meta.RemoteCommandKind);
 
             if (packageType == null)
             {
