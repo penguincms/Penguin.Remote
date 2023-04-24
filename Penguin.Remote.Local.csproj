@@ -11,7 +11,7 @@
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Loxifi.TypeFactory" Version="0.2.1" />
+    <PackageReference Include="Loxifi.TypeFactory" Version="0.9.9" />
     <ProjectReference Include="..\Penguin.Debugging\Penguin.Debugging.Local.csproj" />
     <ProjectReference Include="..\Penguin.Extensions.Exceptions\Penguin.Extensions.Exceptions.Local.csproj" />
     <ProjectReference Include="..\Penguin.Reflection\Penguin.Reflection.Local.csproj" />
